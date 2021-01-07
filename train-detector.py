@@ -17,7 +17,7 @@ from src.sampler import augment_sample, labels2output_map
 from src.data_generator import DataGenerator
 
 from pdb import set_trace as pause
-
+import time
 
 def load_network(modelpath,input_dim):
 
@@ -109,10 +109,10 @@ if __name__ == '__main__':
 	for it in range(iterations):
 
 		print ('Iter. %d (of %d)' % (it+1,iterations))
-
+		start = time.time()
 		Xtrain,Ytrain = dg.get_batch(batch_size)
 		train_loss = model.train_on_batch(Xtrain,Ytrain)
-
+		print("Time: {}".format(time.time() - start))
 		print( '\tLoss: %f' % train_loss)
 
 		# Save model every 1000 iterations

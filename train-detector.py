@@ -22,13 +22,14 @@ from pdb import set_trace as pause
 def load_network(modelpath,input_dim):
 
 	model = load_model(modelpath)
+	print(type(model))
 	input_shape = (input_dim,input_dim,3)
 
 	# Fixed input size for training
 	inputs  = keras.layers.Input(shape=(input_dim,input_dim,3))
 	outputs = model(inputs)
-
-	output_shape = tuple([s.value for s in outputs.shape[1:]])
+	print(outputs)
+	output_shape = tuple([s for s in outputs.shape[1:]])
 	output_dim   = output_shape[1]
 	model_stride = input_dim / output_dim
 
@@ -99,7 +100,8 @@ if __name__ == '__main__':
 	dg.start()
 
 	Xtrain = np.empty((batch_size,dim,dim,3),dtype='single')
-	Ytrain = np.empty((batch_size,dim/model_stride,dim/model_stride,2*4+1))
+	print(batch_size, dim/model_stride)
+	Ytrain = np.empty((batch_size,int(dim/model_stride),int(dim/model_stride),2*4+1))
 
 	model_path_backup = '%s/%s_backup' % (outdir,netname)
 	model_path_final  = '%s/%s_final'  % (outdir,netname)
